@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="pro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#080b14" />
+  <title>Aura — Think. Speak. Learn.</title>
+  <link rel="icon" href="/static/img/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true">
+    <div class="atmosphere-photo"></div>
+    <div class="atmosphere-veil"></div>
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="orb orb-c"></div>
+  </div>
+
+  <div id="app">
+    <section id="onboard" class="onboard" aria-label="Welcome">
+      <div class="onboard-card">
+        <div class="onboard-brand">
+          <img src="/static/img/logo.png" alt="" class="onboard-logo" />
+          <div>
+            <p class="eyebrow">Local companion</p>
+            <h1>Aura</h1>
+          </div>
+        </div>
+        <div class="steps" id="steps">
+          <div class="step active" data-step="0">
+            <h2>Think. Speak. Learn.</h2>
+            <p class="lede">A professional assistant with WhatsApp-style voice notes, talk mode, a real conversation database, and a protected Kids world.</p>
+            <button class="btn primary wide" id="ob-start" type="button">Begin</button>
+          </div>
+          <div class="step" data-step="1">
+            <h2>What should we call you?</h2>
+            <p class="lede">Aura will greet you by name. You can change this later.</p>
+            <label class="field">
+              <span>Your name</span>
+              <input id="ob-name" maxlength="40" placeholder="e.g. Aanya" autocomplete="name" />
+            </label>
+            <button class="btn primary wide" id="ob-name-next" type="button">Continue</button>
+          </div>
+          <div class="step" data-step="2">
+            <h2>Choose your space</h2>
+            <p class="lede">You can switch later. Kids Mode uses simpler language and a parent PIN.</p>
+            <div class="mode-grid">
+              <button class="mode-card selected" type="button" data-mode="pro" id="pick-pro">
+                <img src="/static/img/aura-avatar.png" alt="" />
+                <strong>Professional</strong>
+                <span>Deep facts, weather, maths, polished workspace.</span>
+              </button>
+              <button class="mode-card" type="button" data-mode="kids" id="pick-kids">
+                <img src="/static/img/spark-mascot.png" alt="" />
+                <strong>Kids Mode</strong>
+                <span>Stories, quizzes, Spark the star, kinder answers.</span>
+              </button>
+            </div>
+            <button class="btn primary wide" id="ob-mode-next" type="button">Enter Aura</button>
+          </div>
+          <div class="step" data-step="3">
+            <h2>Parent lock</h2>
+            <p class="lede">Set a 4-digit PIN so Kids Mode cannot exit without you. Optional, but recommended.</p>
+            <label class="field">
+              <span>PIN</span>
+              <input id="ob-pin" inputmode="numeric" maxlength="4" placeholder="••••" />
+            </label>
+            <div class="row-actions">
+              <button class="btn ghost" id="ob-skip-pin" type="button">Skip for now</button>
+              <button class="btn primary" id="ob-save-pin" type="button">Save PIN & enter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="shell" class="shell hidden">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-head">
+          <div class="brand">
+            <img src="/static/img/logo.png" alt="" class="brand-mark" />
+            <div>
+              <strong class="brand-name">Aura</strong>
+              <small id="brand-tag">Professional</small>
+            </div>
+          </div>
+          <button class="icon-btn" id="close-sidebar" type="button" aria-label="Close menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
+        <button class="btn primary wide new-chat" id="new-chat" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>
+          New chat
+        </button>
+        <label class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/></svg>
+          <input id="search" placeholder="Search chats" />
+        </label>
+        <nav class="convo-list" id="convo-list" aria-label="Conversations"></nav>
+        <div class="sidebar-foot">
+          <button class="user-chip" id="open-settings" type="button">
+            <span class="avatar-letter" id="user-letter">A</span>
+            <span>
+              <strong id="user-label">You</strong>
+              <small id="user-mode-label">Professional</small>
+            </span>
+          </button>
+        </div>
+      </aside>
+
+      <main class="stage">
+        <header class="topbar">
+          <button class="icon-btn" id="open-sidebar" type="button" aria-label="Open menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          </button>
+          <div class="title-block">
+            <h2 id="chat-title">New chat</h2>
+            <p id="chat-sub">Ask anything, or hold a voice note</p>
+          </div>
+          <div class="top-actions">
+            <button class="chip-toggle" id="mode-toggle" type="button" title="Switch mode">
+              <span class="dot"></span>
+              <span id="mode-toggle-label">Kids Mode</span>
+            </button>
+            <button class="icon-btn glow" id="talk-btn" type="button" aria-label="Talk mode">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3z"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>
+            </button>
+            <button class="icon-btn" id="settings-btn" type="button" aria-label="Settings">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9c.3.7.9 1.2 1.6 1.4H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="thread" id="thread">
+          <div class="empty" id="empty">
+            <div class="empty-hero">
+              <img id="empty-art" src="/static/img/logo.png" alt="" />
+              <div class="pulse-ring"></div>
+            </div>
+            <h2 id="empty-hello">How can I help?</h2>
+            <p id="empty-copy">Ask a question, tap the mic, or send a voice note.</p>
+            <div class="prompt-grid" id="prompt-grid"></div>
+          </div>
+          <div class="messages" id="messages"></div>
+        </div>
+
+        <div class="dock">
+          <div class="suggestions" id="suggestions"></div>
+          <div class="recorder hidden" id="recorder">
+            <span class="rec-dot"></span>
+            <span id="rec-time">0:00</span>
+            <div class="wave" id="wave"></div>
+            <p class="rec-live" id="rec-live"></p>
+            <button class="icon-btn" id="rec-cancel" type="button" aria-label="Cancel">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+            <button class="btn primary" id="rec-send" type="button">Send</button>
+          </div>
+          <form class="composer" id="composer">
+            <button class="icon-btn mic" id="stt-btn" type="button" aria-label="Speak">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3z"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>
+            </button>
+            <textarea id="input" rows="1" placeholder="Message Aura…" maxlength="4000"></textarea>
+            <button class="icon-btn" id="note-btn" type="button" aria-label="Voice note">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12v6a2 2 0 002 2h2"/><rect x="9" y="4" width="3" height="16" rx="1"/><rect x="14" y="8" width="3" height="12" rx="1"/><rect x="19" y="11" width="3" height="9" rx="1"/></svg>
+            </button>
+            <button class="send" id="send-btn" type="submit" aria-label="Send">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </form>
+          <p class="fineprint" id="fineprint">Aura looks up live facts. Kids Mode filters grown-up topics. Chats stay in your local database.</p>
+        </div>
+      </main>
+    </section>
+
+    <section id="talk" class="talk hidden" aria-label="Talk mode">
+      <button class="icon-btn talk-close" id="talk-close" type="button" aria-label="Close talk mode">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div class="talk-core">
+        <div class="talk-orb" id="talk-orb">
+          <img id="talk-art" src="/static/img/logo.png" alt="" />
+        </div>
+        <p class="talk-status" id="talk-status">Tap to speak</p>
+        <p class="talk-script" id="talk-script"></p>
+        <button class="btn primary" id="talk-hold" type="button">Start listening</button>
+      </div>
+    </section>
+
+    <div class="scrim hidden" id="scrim"></div>
+
+    <div class="modal hidden" id="settings" role="dialog" aria-labelledby="settings-title">
+      <div class="modal-card">
+        <header>
+          <h2 id="settings-title">Settings</h2>
+          <button class="icon-btn" id="settings-close" type="button" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </header>
+        <label class="field">
+          <span>Display name</span>
+          <input id="set-name" maxlength="40" />
+        </label>
+        <label class="field">
+          <span>Home city</span>
+          <input id="set-city" maxlength="60" />
+        </label>
+        <label class="switch">
+          <input type="checkbox" id="set-speak" />
+          <span>Auto-speak replies</span>
+        </label>
+        <label class="field">
+          <span>Parent PIN (4 digits)</span>
+          <div class="row-actions">
+            <input id="set-pin" inputmode="numeric" maxlength="4" placeholder="Set or change" />
+            <button class="btn ghost" id="save-pin" type="button">Save PIN</button>
+          </div>
+        </label>
+        <div class="row-actions">
+          <button class="btn danger ghost" id="reset-all" type="button">Erase all data</button>
+          <button class="btn primary" id="save-settings" type="button">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal hidden" id="pin-modal" role="dialog">
+      <div class="modal-card slim">
+        <h2>Parent unlock</h2>
+        <p class="lede">Enter the 4-digit PIN to leave Kids Mode.</p>
+        <input id="pin-input" inputmode="numeric" maxlength="4" placeholder="••••" />
+        <div class="row-actions">
+          <button class="btn ghost" id="pin-cancel" type="button">Cancel</button>
+          <button class="btn primary" id="pin-ok" type="button">Unlock</button>
+        </div>
+        <p class="error hidden" id="pin-error">Incorrect PIN</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
